@@ -15,17 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Life Cycle Admin Approve Step
  *
- * @package    tool_lifecycle
+ * @package lifecyclestep_adminapprove
  * @copyright  2025 Thomas Niedermaier Universität Münster
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->maturity = MATURITY_STABLE;
-$plugin->version  = 2025031300.03;
-$plugin->component = 'tool_lifecycle';
+$plugin->version = 2025031300;
+$plugin->component = 'lifecyclestep_adminapprove';
+$plugin->dependencies = [
+        'tool_lifecycle' => 2025031300,
+];
 $plugin->requires = 2024100700; // Requires Moodle 4.5+.
-$plugin->release   = 'v4.5-r1';
+$plugin->release = 'v4.5-r1';
+$plugin->maturity = MATURITY_STABLE;

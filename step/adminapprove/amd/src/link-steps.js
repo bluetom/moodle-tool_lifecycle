@@ -1,4 +1,3 @@
-<?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,17 +14,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Life Cycle Admin Approve Step AMD Module
  *
- * @package    tool_lifecycle
- * @copyright  2025 Thomas Niedermaier Universität Münster
+ * @module     lifecyclestep_adminapprove/link-steps
+ * @copyright  2019 Justus Dieckmann WWU
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-defined('MOODLE_INTERNAL') || die;
-
-$plugin->maturity = MATURITY_STABLE;
-$plugin->version  = 2025031300.03;
-$plugin->component = 'tool_lifecycle';
-$plugin->requires = 2024100700; // Requires Moodle 4.5+.
-$plugin->release   = 'v4.5-r1';
+define(['jquery'], function($) {
+    return {
+        init: function() {
+            $('#adminapprove-steptable tbody tr').each(function() {
+                if ($(this).prop('class') == '') {
+                    $(this).css('cursor', 'pointer');
+                    $(this).click(function () {
+                        var id = $(this).find("[data-stepid]").attr('data-stepid');
+                        location.href = 'approvestep.php?stepid=' + id;
+                    });
+                }
+            });
+        }
+    };
+});

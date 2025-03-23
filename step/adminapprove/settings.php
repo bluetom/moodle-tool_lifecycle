@@ -15,17 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Settings page which gives an overview over running lifecycle processes.
  *
- * @package    tool_lifecycle
- * @copyright  2025 Thomas Niedermaier Universität Münster
+ * @package lifecyclestep_adminapprove
+ * @copyright  2019 Justus Dieckmann WWU
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->maturity = MATURITY_STABLE;
-$plugin->version  = 2025031300.03;
-$plugin->component = 'tool_lifecycle';
-$plugin->requires = 2024100700; // Requires Moodle 4.5+.
-$plugin->release   = 'v4.5-r1';
+if ($hassiteconfig) {
+
+    $ADMIN->add('lifecycle', new admin_externalpage('lifecyclestep_adminapprove_manage',
+            get_string('manage-adminapprove', 'lifecyclestep_adminapprove'),
+            new moodle_url('/admin/tool/lifecycle/step/adminapprove/index.php')));
+
+}

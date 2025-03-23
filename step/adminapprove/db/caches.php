@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Cache Definition for Admin Approve Step
  *
- * @package    tool_lifecycle
- * @copyright  2025 Thomas Niedermaier Universität Münster
+ * @package lifecyclestep_adminapprove
+ * @copyright  2019 Justus Dieckmann WWU
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-$plugin->maturity = MATURITY_STABLE;
-$plugin->version  = 2025031300.03;
-$plugin->component = 'tool_lifecycle';
-$plugin->requires = 2024100700; // Requires Moodle 4.5+.
-$plugin->release   = 'v4.5-r1';
+$definitions = [
+        'mformdata' => [
+                'mode' => cache_store::MODE_SESSION,
+        ],
+];
