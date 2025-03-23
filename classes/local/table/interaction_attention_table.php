@@ -51,15 +51,14 @@ class interaction_attention_table extends interaction_table {
         global $PAGE, $DB;
 
         $fields = "p.id as processid, c.id as courseid, c.fullname as coursefullname, c.shortname as courseshortname, " .
-            "c.startdate, cc.name as category , s.id as stepinstanceid, s.instancename as stepinstancename, ".
-            "s.subpluginname as subpluginname";
+            "c.startdate, cc.name as category, cc.path as categorypath, s.id as stepinstanceid, " .
+            "s.instancename as stepinstancename, s.subpluginname as subpluginname";
         $from = '{tool_lifecycle_process} p join ' .
             '{course} c on p.courseid = c.id join ' .
             '{tool_lifecycle_step} s ' .
             'on p.workflowid = s.workflowid AND p.stepindex = s.sortindex ' .
             'left join {course_categories} cc on c.category = cc.id';
         $ids = implode(',', $courseids);
-
         $where = ['FALSE'];
         if ($ids) {
             $where = ['p.courseid IN (' . $ids . ')'];
@@ -118,6 +117,9 @@ class interaction_attention_table extends interaction_table {
         $step = step_manager::get_step_instance($row->stepinstanceid);
 
         $tools = interaction_manager::get_action_tools($step->subpluginname, $row->processid);
+        if (empty($tools)) {
+            return get_string('noactiontools', 'tool_lifecycle');
+        }
         foreach ($tools as $tool) {
             $output .= $this->format_icon_link($tool['action'], $row->processid, $step->id, $tool['alt']);
         }

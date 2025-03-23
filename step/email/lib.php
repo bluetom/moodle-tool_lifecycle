@@ -27,7 +27,6 @@ use tool_lifecycle\local\manager\process_manager;
 use tool_lifecycle\local\manager\settings_manager;
 use tool_lifecycle\local\response\step_response;
 use tool_lifecycle\local\manager\step_manager;
-use tool_lifecycle\local\manager\process_data_manager;
 use tool_lifecycle\settings_type;
 
 defined('MOODLE_INTERNAL') || die();
@@ -119,19 +118,27 @@ class email extends libbase {
                     ['instanceid' => $step->id,
                         'touser' => $user->id, ]);
 
-                    $parsedsettings = $this->replace_placeholders($settings, $user, $step->id, $mailentries);
-
+                $parsedsettings = $this->replace_placeholders($settings, $user, $step->id, $mailentries);
                 $subject = $parsedsettings['subject'];
                 $content = $parsedsettings['content'];
                 $contenthtml = $parsedsettings['contenthtml'];
-                // TODO: use course info to parse content template!
                 $success = email_to_user($user, \core_user::get_noreply_user(), $subject, $content, $contenthtml);
                 if (!$success) {
                     mtrace("E-mail to user {$user->id} failed.");
                 }
+                $dblogging = get_config('tool_lifecycle', 'logreceivedmails');
+                if ($dblogging && $success) {
+                    // Insert user id and course id in table tool_lifecycle_user_notified.
+                    $record = new \stdClass();
+                    $record->userid = $user->id;
+                    $record->timemailsent = time();
+                    foreach ($mailentries as $entry) {
+                        $record->courseid = $entry->courseid;
+                        $DB->insert_record('lifecyclestep_email_notified', $record);
+                    }
+                }
                 $DB->delete_records('lifecyclestep_email',
-                    ['instanceid' => $step->id,
-                        'touser' => $user->id, ]);
+                    ['instanceid' => $step->id, 'touser' => $user->id]);
                 $transaction->allow_commit();
             }
         }
@@ -172,51 +179,32 @@ class email extends libbase {
         $patterns[] = '##link-html##';
         $replacements[] = \html_writer::link($url, $url);
 
-        // Replace courses list.
-        $patterns[] = '##courses##';
-        $courses = $mailentries;
-        $coursesstring = '';
-        $coursesstring .= $this->parse_course(array_pop($courses)->courseid);
-        foreach ($courses as $entry) {
-            $coursesstring .= "\r\n" . $this->parse_course($entry->courseid);
+        $courses = [];
+        foreach ($mailentries as $entry) {
+            $courses[] = get_course($entry->courseid);
         }
-        $replacements[] = $coursesstring;
 
-        // Replace courses html.
-        $patterns[] = '##courses-html##';
-        $courses = $mailentries;
-        $coursestabledata = [];
-        foreach ($courses as $entry) {
-            $coursestabledata[$entry->courseid] = $this->parse_course_row_data($entry->courseid);
+        // Replace courses list.
+        $coursesstrings = [];
+        foreach ($courses as $course) {
+            $coursesstrings[] = $course->fullname;
         }
-        $coursestable = new \html_table();
-        $coursestable->data = $coursestabledata;
-        $replacements[] = \html_writer::table($coursestable);
+        $patterns[] = '##courses##';
+        $replacements[] = join("\r\n", $coursesstrings);
+        $patterns[] = '##courses-html##';
+        $replacements[] = join("<br>", $coursesstrings);
+
+        // Replace short courses list.
+        $coursesstrings = [];
+        foreach ($courses as $course) {
+            $coursesstrings[] = $course->shortname;
+        }
+        $patterns[] = '##shortcourses##';
+        $replacements[] = join("\r\n", $coursesstrings);
+        $patterns[] = '##shortcourses-html##';
+        $replacements[] = join("<br>", $coursesstrings);
 
         return str_ireplace($patterns, $replacements, $strings);
-    }
-
-    /**
-     * Parses a course for the non html format.
-     * @param int $courseid id of the course
-     * @return string
-     * @throws \dml_exception
-     */
-    private function parse_course($courseid) {
-        $course = get_course($courseid);
-        $result = $course->fullname;
-        return $result;
-    }
-
-    /**
-     * Parses a course for the html format.
-     * @param int $courseid id of the course
-     * @return array column of a course
-     * @throws \dml_exception
-     */
-    private function parse_course_row_data($courseid) {
-        $course = get_course($courseid);
-        return [$course->fullname];
     }
 
     /**

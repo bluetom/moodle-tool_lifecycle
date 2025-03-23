@@ -61,7 +61,7 @@ class view_controller {
         $courses = array_intersect($courseids1, $courseids2);
         if (!$courses) {
             echo 'no courses';
-            // TODO show error.
+            // Software enhancement show error.
             return;
         }
 
@@ -142,7 +142,7 @@ class view_controller {
      */
     public function handle_trigger($triggerid, $courseid) {
         global $PAGE;
-        // TODO check if trigger to triggerid exists.
+        // Software enhancement check if trigger to triggerid exists.
         // Check if trigger is manual.
         $trigger = trigger_manager::get_instance($triggerid);
         $lib = lib_manager::get_trigger_lib($trigger->subpluginname);

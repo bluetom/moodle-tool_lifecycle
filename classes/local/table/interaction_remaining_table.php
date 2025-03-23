@@ -58,7 +58,7 @@ class interaction_remaining_table extends interaction_table {
         // We need to do this, so that courses without any action have a smaller timestamp than courses with an recorded action.
         // Otherwise, it would mess up the sorting.
         $fields = "c.id as courseid, p.id AS processid, c.fullname AS coursefullname, c.shortname AS courseshortname, " .
-                  "c.startdate, cc.name AS category, COALESCE(l.time, 0) AS lastmodified, l.userid, " .
+                  "c.startdate, cc.name AS category, cc.path as categorypath, COALESCE(l.time, 0) AS lastmodified, l.userid, " .
                   "l.action, s.subpluginname, ";
         if ($CFG->branch >= 311) {
             $fields .= \core_user\fields::for_name()->get_sql('u', false, '', '', false)->selects;
@@ -126,7 +126,9 @@ class interaction_remaining_table extends interaction_table {
         if ($row->processid !== null) {
             return '';
         }
-
+        if (empty($this->availabletools)) {
+            return get_string('noactiontools', 'tool_lifecycle');
+        }
         $actions = [];
         foreach ($this->availabletools as $tool) {
             if (has_capability($tool->capability, \context_course::instance($row->courseid), null, false)) {

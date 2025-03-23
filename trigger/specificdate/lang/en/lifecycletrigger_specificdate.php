@@ -29,3 +29,4 @@ $string['plugindescription'] = 'Defines time slots at which this workflow should
 $string['pluginname'] = 'Specific date trigger';
 $string['privacy:metadata'] = 'This subplugin does not store any personal data.';
 $string['timelastrun'] = 'Date when the trigger last run.';
+$string['timelastrunactive'] = 'Only once a day';

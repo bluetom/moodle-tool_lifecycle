@@ -103,8 +103,9 @@ class processor {
                 try {
                     $course = get_course($process->courseid);
                 } catch (\dml_missing_record_exception $e) {
-                    // Course no longer exists!
-                    break;
+                    mtrace("The course with id {$process->courseid} no longer exists. New stdClass with id property is created.");
+                    $course = new \stdClass();
+                    $course->id = $process->courseid;
                 }
 
                 if ($process->stepindex == 0) {
@@ -124,6 +125,7 @@ class processor {
                         $result = $lib->process_course($process->id, $step->id, $course);
                     }
                 } catch (\Exception $e) {
+                    unset($process->context);
                     process_manager::insert_process_error($process, $e);
                     break;
                 }
