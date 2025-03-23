@@ -338,9 +338,9 @@ class processor {
 
     /**
      * Returns a list of triggered courses for a trigger of a workflow.
-     * @param $trigger
+     * @param trigger_subplugin $trigger
      * @param int $workflowid
-     * @return array int $courseids
+     * @return int[] $courseids
      * @throws \coding_exception
      * @throws \dml_exception
      */
@@ -374,9 +374,9 @@ class processor {
 
     /**
      * Returns a list of excluded courses for a trigger of a workflow.
-     * @param $trigger
+     * @param trigger_subplugin $trigger
      * @param int $workflowid
-     * @return array int $courseids
+     * @return int[] $courseids
      * @throws \coding_exception
      * @throws \dml_exception
      */
@@ -412,9 +412,9 @@ class processor {
 
     /**
      * Returns a list of delayed courses for a trigger of a workflow.
-     * @param $trigger
+     * @param trigger_subplugin $trigger
      * @param int $workflowid
-     * @return array int $courseids
+     * @return int[] $courseids
      * @throws \coding_exception
      * @throws \dml_exception
      */

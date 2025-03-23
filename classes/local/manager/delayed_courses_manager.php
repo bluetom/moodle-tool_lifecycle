@@ -131,7 +131,7 @@ class delayed_courses_manager {
     /**
      * Queries if a course was delayed for a given workflow.
      * @param int $courseid id of the course
-     * @param $workflowid id of the workflow
+     * @param int $workflowid id of the workflow
      * @return null|int timestamp until when the course is delayed (null if no entry exists).
      * @throws \dml_exception
      */

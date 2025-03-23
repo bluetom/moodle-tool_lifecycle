@@ -344,7 +344,7 @@ class trigger_manager extends subplugin_manager {
 
     /**
      * Returns true if the trigger fires, i.e. returns a list of one or more courses to process upon.
-     * @param $trigger
+     * @param trigger_subplugin $trigger
      * @return mixed $sql returns false if the trigger does not fire
      * @throws \coding_exception
      * @throws \dml_exception

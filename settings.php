@@ -113,7 +113,7 @@ if ($hassiteconfig) {
             get_string('config_logreceivedmails', 'tool_lifecycle'),
             get_string('config_logreceivedmails_desc', 'tool_lifecycle'),
             0));
-      
+
         if ($triggers) {
             $settings->add(new admin_setting_heading('lifecycletriggerheader',
                 get_string('triggers_installed', 'tool_lifecycle'), ''));
