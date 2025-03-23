@@ -10,7 +10,7 @@ Feature: Add a workflow definition activate it
       | Title                      | My Workflow                               |
       | Displayed workflow title   | Teachers view on workflow                 |
     When I press "Save changes"
-    Then I should see "Displayed to teachers as Teachers view on workflow"
+    Then I should see "Delay in case of rollback"
     When I select "Start date delay trigger" from the "tool_lifecycle-choose-trigger" singleselect
     Then I should see "Settings of the trigger"
     And I should see "Specific settings of the trigger type"
@@ -19,8 +19,7 @@ Feature: Add a workflow definition activate it
       | delay[number]    | 2                          |
       | delay[timeunit]  | days                       |
     And I press "Save changes"
-    Then I should see "Displayed to teachers as Teachers view on workflow"
-    And I should see "Add new step instance"
+    Then I should see "Add new step instance"
     And I should see "startdatedelay"
     When I select "Email step" from the "tool_lifecycle-choose-step" singleselect
     And I set the following fields to these values:
