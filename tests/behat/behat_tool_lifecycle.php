@@ -26,7 +26,7 @@
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 
-require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
+require_once(__DIR__ . '/../../../../../../../lib/behat/behat_base.php');
 
 /**
  * Step definition for life cycle.
