@@ -1,4 +1,4 @@
-@lifecyclestep @lifecyclestep_adminapprove @javascript
+@tool @tool_lifecycle @lifecyclestep @lifecyclestep_adminapprove @javascript
 Feature: Add a workflow with an adminapprove step and test it
 
   Background:
