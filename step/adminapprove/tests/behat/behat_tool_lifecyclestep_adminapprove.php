@@ -34,20 +34,18 @@ require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 /**
  * Step definition for life cycle.
  *
- * @package    tool_lifecyclestep_adminapprove
+ * @package    lifecyclestep_adminapprove
  * @category   test
  * @copyright  2018 Tobias Reischmann
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class behat_tool_lifecyclestep_adminapprove extends behat_base
-{
+class behat_tool_lifecyclestep_adminapprove extends behat_base {
     /**
      * Open the workflowdrafts page.
      *
      * @Given /^I am on workflowdrafts page$/
      */
-    public function i_am_on_workflowdrafts_page()
-    {
+    public function i_am_on_workflowdrafts_page() {
         $this->execute('behat_general::i_visit', ['/admin/tool/lifecycle/workflowdrafts.php']);
     }
 
@@ -56,8 +54,7 @@ class behat_tool_lifecyclestep_adminapprove extends behat_base
      *
      * @Given /^I am on activeworkflows page$/
      */
-    public function i_am_on_activeworkflows_page()
-    {
+    public function i_am_on_activeworkflows_page() {
         $this->execute('behat_general::i_visit', ['/admin/tool/lifecycle/activeworkflows.php']);
     }
 
@@ -66,8 +63,7 @@ class behat_tool_lifecyclestep_adminapprove extends behat_base
      *
      * @Given /^I am on coursebackups page$/
      */
-    public function i_am_on_coursebackups_page()
-    {
+    public function i_am_on_coursebackups_page() {
         $this->execute('behat_general::i_visit', ['/admin/tool/lifecycle/coursebackups.php']);
     }
 }
