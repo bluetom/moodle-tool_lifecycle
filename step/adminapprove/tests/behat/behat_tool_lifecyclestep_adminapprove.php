@@ -17,7 +17,7 @@
 /**
  * Step definition for life cycle.
  *
- * @package    tool_lifecycle
+ * @package    lifecyclestep_adminapprove
  * @category   test
  * @copyright  2018 Tobias Reischmann
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
