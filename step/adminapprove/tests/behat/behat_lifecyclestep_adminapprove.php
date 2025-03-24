@@ -39,7 +39,7 @@ require_once(__DIR__ . '/../../../../../../../lib/behat/behat_base.php');
  * @copyright  2018 Tobias Reischmann
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class behat_tool_lifecyclestep_adminapprove extends behat_base {
+class behat_lifecyclestep_adminapprove extends behat_base {
     /**
      * Open the workflowdrafts page.
      *
