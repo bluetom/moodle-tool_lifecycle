@@ -276,6 +276,7 @@ $data = [
     'finishdelay' => format_time($workflow->finishdelay),
     'delayglobally' => $workflow->delayforallworkflows,
     'trigger' => $displaytriggers,
+    'counttriggers' => count($displaytriggers),
     'showcoursecounts' => $showcoursecounts,
     'steps' => $displaysteps,
     'listofcourses' => $arrayofcourses,
