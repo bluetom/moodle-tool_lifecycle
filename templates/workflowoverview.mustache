@@ -81,6 +81,7 @@
                 {{^delayglobally}}{{#str}}details:globaldelay_no, tool_lifecycle{{/str}}{{/delayglobally}}</span>
             <div class="mt-2">{{{addinstance}}}</div>
         </div>
+        {{#displaytriggers}}
         <div class="wf-trigger-block workflow-item">
             <h5 class="my-2">{{#str}} trigger, tool_lifecycle{{/str}} {{{triggerhelp}}}</h5>
             {{#showcoursecounts}}
@@ -91,10 +92,10 @@
                     {{#str}} courses_are_delayed_total, tool_lifecycle, {{coursesdelayed}} {{/str}}
                 </div>
               {{/automatic}}
+              {{^automatic}}
                 <div class="mb-2 mx-2">
                     {{#str}} manualtriggerenvolved, tool_lifecycle {{/str}} {{{manualtriggerenvolvedhelp}}}
                 </div>
-              {{^automatic}}
               {{/automatic}}
             {{/showcoursecounts}}
             <div class="workflow wf-trigger-wrapper">
@@ -149,6 +150,7 @@
                 {{/trigger}}
             </div>
         </div>
+        {{/displaytriggers}}
         {{#steps}}
             <div class="wf-arrow"></div>
             <div class="workflow-step workflow-item {{#selected}}wf-selected{{/selected}}">

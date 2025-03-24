@@ -294,10 +294,9 @@ if ($showcoursecounts) {
 if (workflow_manager::is_editable($workflow->id)) {
     $addinstance = '';
     $triggertypes = trigger_manager::get_chooseable_trigger_types();
-    $workflowtriggers = trigger_manager::get_triggers_for_workflow($workflow->id);
     $selectabletriggers = [];
     foreach ($triggertypes as $triggertype => $triggername) {
-        foreach ($workflowtriggers as $workflowtrigger) {
+        foreach ($triggers as $workflowtrigger) {
             if ($triggertype == $workflowtrigger->subpluginname) {
                 continue 2;
             }
