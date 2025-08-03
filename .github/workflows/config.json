@@ -2,7 +2,7 @@
   "main-moodle": "MOODLE_405_STABLE",
   "main-php": "8.3",
   "main-db": "pgsql",
-  "moodle-php": {
+  "moodle-testmatrix": {
     "MOODLE_401_STABLE": {
       "php": ["8.0", "8.1"]
     },
