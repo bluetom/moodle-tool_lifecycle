@@ -41,8 +41,8 @@ class lastaccess extends base_automatic {
     /**
      * Checks the course and returns a response, which tells if the course should be further processed.
      *
-     * @param \stdClass $course 
-     * @param int $triggerid 
+     * @param \stdClass $course
+     * @param int $course
      * @return trigger_response
      */
     public function check_course($course, $triggerid) {
