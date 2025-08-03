@@ -57,7 +57,7 @@ class byrole extends base_automatic {
     /**
      * Returns triggertype of trigger: trigger, triggertime or exclude.
      * @param \stdClass $course
-     * @param int $course
+     * @param int $triggerid
      * @return trigger_response
      */
     public function check_course($course, $triggerid) {

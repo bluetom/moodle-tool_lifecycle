@@ -139,8 +139,8 @@ abstract class base_automatic extends base {
 
     /**
      * Returns triggertype of trigger: trigger, triggertime or exclude.
-     * @param int $course
-     * @param int $course
+     * @param int $triggerid
+     * @param int $triggerid
      * @return trigger_response
      */
     abstract public function check_course($course, $triggerid);
