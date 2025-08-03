@@ -139,7 +139,7 @@ abstract class base_automatic extends base {
 
     /**
      * Returns triggertype of trigger: trigger, triggertime or exclude.
-     * @param int $triggerid
+     * @param \stdClass $course
      * @param int $triggerid
      * @return trigger_response
      */
