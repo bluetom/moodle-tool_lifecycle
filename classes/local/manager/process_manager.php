@@ -340,7 +340,7 @@ class process_manager {
         unset($process->errortimecreated);
 
         $DB->insert_record('tool_lifecycle_process', $process, false);
-        $DB->delete_records('tool_lifecycle_proc_error', ['id' => $process->id]);
+        $DB->delete_records('tool_lifecycle_proc_error', ['id' => $processid]);
     }
 
     /**
