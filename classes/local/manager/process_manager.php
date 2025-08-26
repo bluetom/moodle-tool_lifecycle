@@ -293,17 +293,17 @@ class process_manager {
     }
 
     /**
-     * Moves a process into the procerror table.
+     * Moves the process into the procerror table.
      *
      * @param process $process The process
      * @param Exception $e The exception
      * @return void
+     * @throws \dml_exception
      */
     public static function insert_process_error(process $process, Exception $e) {
         global $DB;
 
         $procerror = new stdClass();
-        $procerror->id = $process->id;
         $procerror->courseid = $process->courseid;
         $procerror->workflowid = $process->workflowid;
         $procerror->stepindex = $process->stepindex;
@@ -323,7 +323,7 @@ class process_manager {
     }
 
     /**
-     * Proceed process from procerror back into the process board.
+     * Return process from procerror back into the process board.
      * @param int $processid the processid
      * @return void
      * @throws \dml_exception
@@ -332,7 +332,8 @@ class process_manager {
         global $DB;
 
         $process = $DB->get_record('tool_lifecycle_proc_error', ['id' => $processid]);
-        // Unset process error only entries.
+        // Unset process-error-only entries and id.
+        unset($process->id);
         unset($process->errormessage);
         unset($process->errortrace);
         unset($process->errorhash);
