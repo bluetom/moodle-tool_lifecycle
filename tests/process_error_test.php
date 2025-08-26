@@ -119,7 +119,8 @@ final class process_error_test extends \advanced_testcase {
         } else {
             $this->assertStringContainsString("Attempt to read property \"id\" on false", $record->errormessage);
         }
-        $this->assertEquals($process->id, $record->id);
+        $this->assertEquals($process->workflowid, $record->workflowid);
+        $this->assertEquals($process->stepindex, $record->stepindex);
     }
 
 }
