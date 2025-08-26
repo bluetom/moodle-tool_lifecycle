@@ -318,7 +318,7 @@ class process_manager {
         $procerror->errorhash = md5($m);
         $procerror->waiting = intval($process->waiting);
 
-        $DB->insert_record_raw('tool_lifecycle_proc_error', $procerror, false, false, true);
+        $DB->insert_record('tool_lifecycle_proc_error', $procerror, false, false);
         $DB->delete_records('tool_lifecycle_process', ['id' => $process->id]);
     }
 
