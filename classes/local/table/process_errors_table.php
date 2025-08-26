@@ -134,14 +134,16 @@ class process_errors_table extends \table_sql {
         $actionmenu->add_primary_action(
                 new \action_menu_link_primary(
                         new \moodle_url('', ['action' => 'rollback', 'id[]' => $row->id, 'sesskey' => sesskey()]),
-                        new \pix_icon('i/previous', $this->strings['rollback'], ['class' => 'text-secondary rounded']),
+                        new \pix_icon('i/previous', $this->strings['rollback'], 'moodle',
+                            ['style' => 'border: 2px solid red; padding: 5px; border-radius: 10%; color: red;']),
                         $this->strings['rollback']
                 )
         );
         $actionmenu->add_primary_action(
             new \action_menu_link_primary(
                 new \moodle_url('', ['action' => 'proceed', 'id[]' => $row->id, 'sesskey' => sesskey()]),
-                new \pix_icon('i/next', $this->strings['proceed'], 'moodle', ['class' => 'text-success rounded']),
+                new \pix_icon('i/next', $this->strings['proceed'], 'moodle',
+                    ['style' => 'border: 2px solid green; padding: 5px; border-radius: 10%; color: green;']),
                 $this->strings['proceed']
             )
         );
