@@ -94,7 +94,7 @@ class triggered_courses_table_workflow extends \table_sql {
         $this->captionattributes = ['class' => 'ml-3'];
 
         $columns = ['courseid', 'coursefullname', 'coursecategory'];
-        if ($type == 'triggeredworkflow' && $this->selectable) {
+        if ( ($type == 'triggeredworkflow' && $this->selectable) || $type == 'processes' ) {
             $columns[] = 'tools';
         } else if ($type == 'delayed') {
             $columns[] = 'delayeduntil';
@@ -108,7 +108,7 @@ class triggered_courses_table_workflow extends \table_sql {
             get_string('coursename', 'tool_lifecycle'),
             get_string('coursecategory', 'moodle'),
         ];
-        if ($type == 'triggeredworkflow' && $this->selectable) {
+        if ( ($type == 'triggeredworkflow' && $this->selectable) || $type == 'processes' ) {
             $headers[] = get_string('tools', 'tool_lifecycle');
         } else if ($type == 'delayed') {
             $headers[] = get_string('delayeduntil', 'tool_lifecycle');
@@ -122,6 +122,7 @@ class triggered_courses_table_workflow extends \table_sql {
                     c.fullname as coursefullname,
                     c.shortname as courseshortname,
                     cc.name as coursecategory,
+                    pe.id as errorid,
                     COALESCE(p.courseid, pe.courseid, 0) as hasprocess,
                     CASE
                         WHEN COALESCE(p.workflowid, 0) > COALESCE(pe.workflowid, 0) THEN p.workflowid
@@ -314,6 +315,7 @@ class triggered_courses_table_workflow extends \table_sql {
             ];
             $button = new \single_button(new \moodle_url(urls::WORKFLOW_DETAILS, $params),
                 get_string('delete_delay', 'tool_lifecycle'));
+            return $OUTPUT->render($button);
         } else if ($this->type == 'triggeredworkflow' && $this->selectable) {
             $params = [
                 'action' => 'select',
@@ -325,9 +327,19 @@ class triggered_courses_table_workflow extends \table_sql {
         }
         if ($button) {
             return $OUTPUT->render($button);
-        } else {
-            return '';
+        } else if ($this->type == 'processes') {
+            if ($row->errorid){
+                $params = [
+                    'workflow' => $this->workflowid,
+                    'course' => $row->courseid,
+                ];
+                return \html_writer::link(
+                    new \moodle_url(urls::PROCESS_ERRORS, $params),
+                    get_string('error'),
+                    ['class' => 'error']);
+            }
         }
+        return '';
     }
 
     /**

@@ -57,10 +57,13 @@ class process_errors_table extends \table_sql {
         $this->strings = [
                 'proceed' => get_string('proceed', 'tool_lifecycle'),
                 'rollback' => get_string('rollback', 'tool_lifecycle'),
+                'delete' => get_string('deleteprocesserror', 'tool_lifecycle'),
         ];
 
-        $fields = 'c.id, c.fullname as course, w.title as workflow, s.instancename as step, pe.*';
-
+        $fields = 'c.id, c.fullname as course,
+            w.id as workflowid, w.title as workflow,
+            s.id as stepid, s.instancename as step,
+            pe.id as errorid, pe.courseid, pe.errormessage, pe.errortrace, pe.errortimecreated';
         $from = '{tool_lifecycle_proc_error} pe ' .
             'JOIN {tool_lifecycle_workflow} w ON pe.workflowid = w.id ' .
             'JOIN {tool_lifecycle_step} s ON pe.workflowid = s.workflowid AND pe.stepindex = s.sortindex ' .
@@ -120,6 +123,19 @@ class process_errors_table extends \table_sql {
     }
 
     /**
+     * Render time of error.
+     *
+     * @param object $row Row data.
+     * @return string errortime cell
+     * @throws \coding_exception
+     * @throws \moodle_exception
+     */
+    public function col_errortime($row) {
+        return userdate($row->errortimecreated,
+            get_string('strftimedatetimeshortaccurate', 'core_langconfig'));
+    }
+
+    /**
      * Render tools column.
      *
      * @param object $row Row data.
@@ -131,20 +147,30 @@ class process_errors_table extends \table_sql {
         global $OUTPUT;
 
         $actionmenu = new \action_menu();
-        $actionmenu->add_primary_action(
+        if ($row->workflowid && $row->stepid ?? false) {
+            $actionmenu->add_primary_action(
                 new \action_menu_link_primary(
-                        new \moodle_url('', ['action' => 'proceed', 'id[]' => $row->id, 'sesskey' => sesskey()]),
-                        new \pix_icon('e/tick', $this->strings['proceed']),
-                        $this->strings['proceed']
+                    new \moodle_url('', ['action' => 'proceed', 'id[]' => $row->id, 'sesskey' => sesskey()]),
+                    new \pix_icon('e/tick', $this->strings['proceed']),
+                    $this->strings['proceed']
                 )
-        );
-        $actionmenu->add_primary_action(
+            );
+            $actionmenu->add_primary_action(
                 new \action_menu_link_primary(
-                        new \moodle_url('', ['action' => 'rollback', 'id[]' => $row->id, 'sesskey' => sesskey()]),
-                        new \pix_icon('e/undo', $this->strings['rollback']),
-                        $this->strings['rollback']
+                    new \moodle_url('', ['action' => 'rollback', 'id[]' => $row->id, 'sesskey' => sesskey()]),
+                    new \pix_icon('e/undo', $this->strings['rollback']),
+                    $this->strings['rollback']
                 )
-        );
+            );
+        } else {
+            $actionmenu->add_primary_action(
+                new \action_menu_link_primary(
+                    new \moodle_url('', ['action' => 'delete', 'id[]' => $row->errorid, 'sesskey' => sesskey()]),
+                    new \pix_icon('t/delete', $this->strings['delete']),
+                    $this->strings['delete']
+                )
+            );
+        }
         return $OUTPUT->render($actionmenu);
     }
 
@@ -157,7 +183,8 @@ class process_errors_table extends \table_sql {
     public function col_select($data) {
         global $OUTPUT;
 
-        $checkbox = new \core\output\checkbox_toggleall('procerrors-table', false, [
+        if ($data->workflowid && $data->stepid) {
+            $checkbox = new \core\output\checkbox_toggleall('procerrors-table', false, [
                 'classes' => 'usercheckbox m-1',
                 'id' => 'procerror' . $data->id,
                 'name' => 'procerror-select',
@@ -165,9 +192,11 @@ class process_errors_table extends \table_sql {
                 'checked' => false,
                 'label' => get_string('selectitem', 'moodle', $data->id),
                 'labelclasses' => 'accesshide',
-        ]);
-
-        return $OUTPUT->render($checkbox);
+            ]);
+            return $OUTPUT->render($checkbox);
+        } else {
+            return '';
+        }
     }
 
     /**
