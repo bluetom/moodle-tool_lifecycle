@@ -63,11 +63,10 @@ class workflow_definition_table extends workflow_table {
      * Initialize the table.
      */
     public function init() {
-        $this->define_columns(['title', 'trigger', 'timeactive', 'tools']);
+        $this->define_columns(['title', 'timeactive', 'tools']);
         $this->define_headers([
             get_string('workflow_title', 'tool_lifecycle'),
-            get_string('trigger', 'tool_lifecycle'),
-            get_string('activateworkflow', 'tool_lifecycle'),
+            get_string('workflow_timeactive', 'tool_lifecycle'),
             get_string('workflow_tools', 'tool_lifecycle'),
             ]);
         $this->sortable(false, 'title');
