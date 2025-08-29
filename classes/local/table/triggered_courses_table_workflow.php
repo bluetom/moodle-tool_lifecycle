@@ -328,7 +328,7 @@ class triggered_courses_table_workflow extends \table_sql {
         if ($button) {
             return $OUTPUT->render($button);
         } else if ($this->type == 'processes') {
-            if ($row->errorid){
+            if ($row->errorid) {
                 $params = [
                     'workflow' => $this->workflowid,
                     'course' => $row->courseid,
