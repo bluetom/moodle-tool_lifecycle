@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'lifecyclestep_opencast';
 $plugin->version = 2026021110;
 $plugin->release = 'v5.0-r1';
-$plugin->requires = 2025041400;
+$plugin->requires = 2024100710;
 $plugin->supported = [500, 501];
 $plugin->maturity = MATURITY_STABLE;
 $plugin->dependencies = [
